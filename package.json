@@ -1,0 +1,24 @@
+{
+  "name": "vue-form",
+  "version": "0.1.0",
+  "description": "A VueJs plugin to simplify ajax form handling.",
+  "main": "dist/vue-form.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "node build/build.js"
+  },
+  "keywords": [
+    "vue",
+    "vuejs",
+    "form",
+    "vue-form"
+  ],
+  "author": "Caleb Porzio",
+  "license": "MIT",
+  "dependencies": {
+    "babel-preset-es2015-loose-rollup": "^7.0.0",
+    "rollup": "^0.34.3",
+    "rollup-plugin-babel": "^2.6.1",
+    "uglify-js": "^2.7.0"
+  }
+}
