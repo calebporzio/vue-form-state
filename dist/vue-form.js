@@ -88,10 +88,10 @@
                 Vue.http.get(uri, form.clean(form.data)).then(function (response) {
                     extend(form.data, response.data);
                     form.ready = true;
-                    resolve(response.data);
+                    resolve(response);
                 }).catch(function (errors) {
                     form.errors.set(errors.data);
-                    reject(errors.data);
+                    reject(errors);
                 });
             });
         };
@@ -117,14 +117,16 @@
                 form.startProcessing();
 
                 Vue.http[method](uri, form.clean(form.data)).then(function (response) {
+                    extend(form.data, response.data);
+
                     form.finishProcessing();
 
-                    resolve(response.data);
+                    resolve(response);
                 }).catch(function (errors) {
                     form.errors.set(errors.data);
                     form.busy = false;
 
-                    reject(errors.data);
+                    reject(errors);
                 });
             });
         };
