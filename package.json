@@ -1,6 +1,6 @@
 {
   "name": "vue-form-state",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "A VueJs plugin to simplify ajax form handling.",
   "main": "dist/vue-form.js",
   "scripts": {
