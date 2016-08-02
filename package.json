@@ -4,8 +4,8 @@
   "description": "A VueJs plugin to simplify ajax form handling.",
   "main": "dist/vue-form.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node build/build.js"
+    "test": "webpack --config test/webpack.config.js",
+    "build": "webpack"
   },
   "keywords": [
     "vue",
@@ -16,9 +16,13 @@
   "author": "Caleb Porzio",
   "license": "MIT",
   "dependencies": {
-    "babel-preset-es2015-loose-rollup": "^7.0.0",
-    "rollup": "^0.34.3",
-    "rollup-plugin-babel": "^2.6.1",
-    "uglify-js": "^2.7.0"
+    "lodash": "^4.14.1"
+  },
+  "devDependencies": {
+    "babel": "^6.5.2",
+    "babel-core": "^6.11.4",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "webpack": "^1.13.1"
   }
 }

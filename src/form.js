@@ -1,11 +1,10 @@
 import Errors from './errors.js'
 
-function extend () {
-    for(var i=1; i<arguments.length; i++)
-        for(var key in arguments[i])
-            if(arguments[i].hasOwnProperty(key))
-                arguments[0][key] = arguments[i][key];
-    return arguments[0];
+function extend (object1, object2) {
+    for(var key in object2)
+        if(object1.hasOwnProperty(key))
+            object1[key] = object2[key];
+    return object1;
 }
 
 export default function Form (Vue, data) {

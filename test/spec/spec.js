@@ -46,30 +46,109 @@
 
 	'use strict';
 
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
+	var _vueMock = __webpack_require__(1);
 
-	var _form = __webpack_require__(1);
+	var _vueMock2 = _interopRequireDefault(_vueMock);
+
+	var _form = __webpack_require__(2);
 
 	var _form2 = _interopRequireDefault(_form);
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function install(Vue) {
-	    Vue.prototype.$form = function (data) {
-	        return new _form2.default(Vue, data);
-	    };
+	describe("Form", function () {
 
-	    Vue.form = function (data) {
-	        return new _form2.default(Vue, data);
-	    };
-	}
+		var form = new _form2.default(_vueMock2.default, { name: 'Jack', girlfriend: 'jill' });
 
-	exports.default = install;
+		it("puts data into it's data property when instantiated", function () {
+			expect(form.data.name).toBe('Jack');
+			expect(form.data.girlfriend).toBe('jill');
+		});
+
+		describe("The init method", function () {
+
+			it("overwrites the data object on completion", function (done) {
+				form.init('resolve').then(function (response) {
+					expect(form.data.name).toBe('John');
+					done();
+				}).catch(function () {
+					return done();
+				});
+			});
+
+			it("doesnt add uninitialized data properties", function (done) {
+				form.init('resolve').then(function (response) {
+					expect(form.data.game).toBe(undefined);
+					done();
+				});
+			});
+		});
+
+		describe("Form.errors", function () {
+
+			it("has errors when an ajax request fails", function (done) {
+				form.post('reject').catch(function (errors) {
+					expect(form.errors.hasErrors()).toBe(true);
+					expect(form.errors.flatten()[0]).toBe("Some Error");
+					expect(form.errors.has("field")).toBe(true);
+					expect(form.errors.get("field")).toBe("Some Error");
+					expect(form.errors.all().field.length).toBe(1);
+
+					form.errors.forget();
+
+					expect(form.errors.hasErrors()).toBe(false);
+
+					done();
+				});
+			});
+		});
+	});
 
 /***/ },
 /* 1 */
+/***/ function(module, exports) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+		value: true
+	});
+	exports.default = {
+		http: {
+			get: function get(url) {
+				return new Promise(function (resolve, reject) {
+					if (url == 'resolve') {
+						resolve({ data: {
+								name: 'John',
+								game: 'Jacks'
+							}
+						});
+					} else {
+						reject({ data: {
+								field: ["Some Error"]
+							}
+						});
+					}
+				});
+			},
+			post: function post(url, data) {
+				return new Promise(function (resolve, reject) {
+					if (url == 'resolve') {
+						resolve({ data: data || {}
+						});
+					} else {
+						reject({ data: {
+								field: ["Some Error"]
+							}
+						});
+					}
+				});
+			}
+		}
+	};
+
+/***/ },
+/* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -79,7 +158,7 @@
 	});
 	exports.default = Form;
 
-	var _errors = __webpack_require__(2);
+	var _errors = __webpack_require__(3);
 
 	var _errors2 = _interopRequireDefault(_errors);
 
@@ -178,7 +257,7 @@
 	}
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -191,7 +270,7 @@
 
 	exports.default = Errors;
 
-	var _lodash = __webpack_require__(3);
+	var _lodash = __webpack_require__(4);
 
 	var _lodash2 = _interopRequireDefault(_lodash);
 
@@ -236,7 +315,7 @@
 	};
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(global, module) {/**
@@ -16847,10 +16926,10 @@
 	  }
 	}.call(this));
 
-	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(4)(module)))
+	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }()), __webpack_require__(5)(module)))
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
